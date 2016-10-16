@@ -3,7 +3,7 @@
 
 _gitname='fenrir'
 pkgname="${_gitname}-git"
-pkgver=v0.1.2.gb72614a
+pkgver=v0.1.13.g26ab170
 pkgrel=1
 pkgdesc='A user space console screen reader written in python3'
 arch=('any')
@@ -13,7 +13,7 @@ depends=('python' 'python-espeak' 'python-evdev')
 optdepends=('brltty: For Braille support'
   'gstreamer: for soundicons via gstreamer'
   'sox: The default sound driver'
-  'python-enchant: for spell check functionality')
+  'python-pyenchant: for spell check functionality')
 makedepends=('git')
 provides=('fenrir')
 conflicts=('fenrir')
@@ -34,12 +34,11 @@ package()
 {
   cd "$srcdir/$_gitname"
   install -d "$pkgdir/usr/bin"
- install -d "$pkgdir/etc/fenrir/keyboard"
- install -d "$pkgdir/etc/fenrir/settings"
- install -d "$pkgdir/etc/fenrir/substitution"
- install -d "$pkgdir/usr/share/sounds/fenrir"
+ install -m644 -d "$pkgdir/etc/fenrir/keyboard"
+ install -m644 -d "$pkgdir/etc/fenrir/settings"
+ install -m644 -d  "$pkgdir/usr/share/sounds/fenrir"
   install -m644 -D "autostart/systemd/fenrir.service" "$pkgdir/usr/lib/systemd/system/fenrir.service"
-  python setup.py install --root="${pkgdir}/" --optimize=1
+  python setup.py install --root="${pkgdir}/"
   cp -a config/keyboard/* "$pkgdir/etc/fenrir/keyboard"
   cp -a config/settings/* "$pkgdir/etc/fenrir/settings"
   cp -a config/sound/* "$pkgdir/usr/share/sounds/fenrir"
